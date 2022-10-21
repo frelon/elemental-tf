@@ -1,4 +1,7 @@
 terraform.tfstate*
 .terraform.tfstate*
 .terraform.lock.hcl
-
+elemental-iso-build
+initial-registration.yaml
+*.iso
+k3s.yaml

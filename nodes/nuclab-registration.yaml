@@ -1,0 +1,16 @@
+elemental:
+  registration:
+    url: https://rancher.ranchernuc.lab/elemental/registration/9m9kjmvg28rgk925l8xf2zj7b6h44vrmfn7gqddn8cfc2vbmm64s5t
+    ca-cert: |-
+      -----BEGIN CERTIFICATE-----
+      MIIBqDCCAU2gAwIBAgIBADAKBggqhkjOPQQDAjA7MRwwGgYDVQQKExNkeW5hbWlj
+      bGlzdGVuZXItb3JnMRswGQYDVQQDExJkeW5hbWljbGlzdGVuZXItY2EwHhcNMjIw
+      NzA2MTExMjIzWhcNMzIwNzAzMTExMjIzWjA7MRwwGgYDVQQKExNkeW5hbWljbGlz
+      dGVuZXItb3JnMRswGQYDVQQDExJkeW5hbWljbGlzdGVuZXItY2EwWTATBgcqhkjO
+      PQIBBggqhkjOPQMBBwNCAARTM0CQuxTazXMNrPdqAGrhtU7IJVF2ncLsig2LnpME
+      8opxzYSvmncQ45v5EhufaLS09ceytAm8Fhi7nxDzoWzYo0IwQDAOBgNVHQ8BAf8E
+      BAMCAqQwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUyJGOWrxVQpWkzKUFt6W7
+      k8XqUNswCgYIKoZIzj0EAwIDSQAwRgIhANFSvmHty4m2yXfTVlyUUhuPO1GpY6Wo
+      mgI1i7P6U95gAiEAkMWsCEy4uSYmfD4Ph8ukY3jSeaM45MSasLglTyxKKd0=
+      -----END CERTIFICATE-----
+
