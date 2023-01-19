@@ -46,6 +46,7 @@ data "template_file" "manager_user" {
     install_k3s_b64          = base64encode(file("${path.module}/install-k3s.sh"))
     install_k3s_services_b64 = base64encode(file("${path.module}/install-k3s-services.sh"))
     elemental_res_b64        = base64encode(file("${path.module}/elemental-res.yaml"))
+    hardening_b64            = base64encode(file("${path.module}/hardening.yaml"))
     manager_public_key       = data.tls_public_key.manager_public_key.public_key_openssh
   }
 }
@@ -71,7 +72,7 @@ resource "libvirt_cloudinit_disk" "manager_init" {
 resource "libvirt_volume" "tumbleweed" {
   name   = "tumbleweed"
   pool   = "elemental"
-  source = "https://download.opensuse.org/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-1.0.0-Cloud-Snapshot20230116.qcow2"
+  source = "file://${abspath(path.module)}/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
   format = "qcow2"
 }
 
@@ -147,6 +148,17 @@ resource "null_resource" "install_k3s_services" {
     inline = [
         "/var/rancher/install-k3s-services.sh",
     ]
+  }
+}
+
+resource "null_resource" "kubeconfig" {
+  depends_on = [
+    null_resource.install_k3s_services
+  ]
+
+  provisioner "local-exec" {
+    command = "./kubeconfig.sh"
+    working_dir = "${abspath(path.module)}"
   }
 }
 

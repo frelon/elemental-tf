@@ -27,12 +27,15 @@ write_files:
     permissions: '0755'
   - encoding: b64
     content: ${install_k3s_services_b64}
-    # path: /var/lib/cloud/scripts/per-boot/install-k3s-services.sh
     path: /var/rancher/install-k3s-services.sh
     permissions: '0755'
   - encoding: b64
     content: ${elemental_res_b64}
     path: /var/rancher/elemental-res.yaml
+    permissions: '0755'
+  - encoding: b64
+    content: ${hardening_b64}
+    path: /var/lib/rancher/k3s/server/manifests/hardening.yaml
     permissions: '0755'
 runcmd:
   - [ bash, -c, "echo 'ClientAliveInterval 120' >> /etc/ssh/sshd_config" ]

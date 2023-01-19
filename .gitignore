@@ -4,4 +4,5 @@ terraform.tfstate*
 elemental-iso-build
 initial-registration.yaml
 *.iso
+*.qcow2
 k3s.yaml

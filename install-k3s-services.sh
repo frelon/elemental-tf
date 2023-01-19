@@ -3,7 +3,7 @@
 set -e
 
 function install_cert_manager() {
-    CM_VER=v1.10.0
+    CM_VER=v1.7.1
     curl -sSL -o cmctl.tar.gz https://github.com/cert-manager/cert-manager/releases/download/${CM_VER}/cmctl-linux-amd64.tar.gz
     tar xzf cmctl.tar.gz
 
@@ -34,17 +34,17 @@ function install() {
     kubectl -n cattle-system rollout status deploy/rancher
     sleep 10
 
-    echo installing elemental-operator
-    # install elemental operator
-    helm upgrade --create-namespace -n cattle-elemental-system --install elemental-operator oci://registry.opensuse.org/isv/rancher/elemental/stable/charts/rancher/elemental-operator-chart --wait
+    # echo installing elemental-operator
+    # # install elemental operator
+    # helm upgrade --create-namespace -n cattle-elemental-system --install elemental-operator oci://registry.opensuse.org/isv/rancher/elemental/stable/charts/rancher/elemental-operator-chart --wait
 
-    echo waiting for elemental-operator
-    kubectl -n cattle-elemental-system rollout status deploy/elemental-operator
+    # echo waiting for elemental-operator
+    # kubectl -n cattle-elemental-system rollout status deploy/elemental-operator
 
-    sleep 10
+    # sleep 20
 
-    echo installing elemental resources
-    kubectl apply -f /var/rancher/elemental-res.yaml
+    # echo installing elemental resources
+    # kubectl apply -f /var/rancher/elemental-res.yaml
 
     echo installation complete!
 }
