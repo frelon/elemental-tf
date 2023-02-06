@@ -26,21 +26,16 @@ write_files:
     path: /var/rancher/install-k3s.sh
     permissions: '0755'
   - encoding: b64
-    content: ${install_k3s_services_b64}
-    path: /var/rancher/install-k3s-services.sh
-    permissions: '0755'
-  - encoding: b64
     content: ${elemental_res_b64}
     path: /var/rancher/elemental-res.yaml
     permissions: '0755'
-  - encoding: b64
-    content: ${hardening_b64}
-    path: /var/lib/rancher/k3s/server/manifests/hardening.yaml
-    permissions: '0755'
+  # - encoding: b64
+  #   content: ${hardening_b64}
+  #   path: /var/lib/rancher/k3s/server/manifests/hardening.yaml
+  #   permissions: '0755'
 runcmd:
   - [ bash, -c, "echo 'ClientAliveInterval 120' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "echo 'ClientAliveCountMax 720' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "echo 'TCPKeepAlive yes' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "/var/rancher/install-k3s.sh" ]
   - [ bash, -c, "curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash" ]
-  - [ reboot ]

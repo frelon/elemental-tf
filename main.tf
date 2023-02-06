@@ -44,8 +44,7 @@ data "template_file" "manager_user" {
 
   vars = {
     install_k3s_b64          = base64encode(file("${path.module}/install-k3s.sh"))
-    install_k3s_services_b64 = base64encode(file("${path.module}/install-k3s-services.sh"))
-    elemental_res_b64        = base64encode(file("${path.module}/elemental-res.yaml"))
+    elemental_res_b64        = base64encode(file("${path.module}/cluster.yaml"))
     hardening_b64            = base64encode(file("${path.module}/hardening.yaml"))
     manager_public_key       = data.tls_public_key.manager_public_key.public_key_openssh
   }
@@ -135,25 +134,9 @@ output "manager_ip" {
   value = libvirt_domain.manager.network_interface.0.addresses.0
 }
 
-resource "null_resource" "install_k3s_services" {
-  connection {
-    type        = "ssh"
-    user        = "rancher"
-    host        = libvirt_domain.manager.network_interface.0.addresses.0
-    private_key = tls_private_key.manager_private_key.private_key_pem
-    timeout     = "30m"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-        "/var/rancher/install-k3s-services.sh",
-    ]
-  }
-}
-
 resource "null_resource" "kubeconfig" {
   depends_on = [
-    null_resource.install_k3s_services
+    libvirt_domain.manager
   ]
 
   provisioner "local-exec" {
@@ -162,13 +145,25 @@ resource "null_resource" "kubeconfig" {
   }
 }
 
-resource "null_resource" "elemental_iso" {
+resource "null_resource" "install_rancher" {
   depends_on = [
-    null_resource.install_k3s_services
+    null_resource.kubeconfig
   ]
 
   provisioner "local-exec" {
-    command = "echo 'follow the elemental quickstart to generate an iso'; until [ -f elemental-teal.x86_64.iso ]; do sleep 5; done;"
+    command = "./install-rancher.sh"
+    working_dir = "${abspath(path.module)}"
+  }
+}
+
+resource "null_resource" "install_elemental" {
+  depends_on = [
+    null_resource.install_rancher
+  ]
+
+  provisioner "local-exec" {
+    command = "./install-elemental.sh"
+    working_dir = "${abspath(path.module)}"
   }
 }
 
@@ -183,7 +178,7 @@ resource "libvirt_volume" "node" {
 
 resource "libvirt_domain" "node" {
   depends_on = [
-    null_resource.elemental_iso
+    null_resource.install_elemental
   ]
 
   name = "node-${count.index}"
