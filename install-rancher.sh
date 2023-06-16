@@ -30,23 +30,10 @@ function install() {
     helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
     helm repo update
     # install rancher manager
-    helm install rancher rancher-latest/rancher --create-namespace --namespace cattle-system --set bootstrapPassword=admin --version 2.7.0 --set hostname=10-0-40-60.sslip.io --wait
+    helm install rancher rancher-latest/rancher --create-namespace --namespace cattle-system --set bootstrapPassword=admin --version 2.7.2 --set hostname=10-0-40-60.sslip.io --set global.cattle.psp.enabled=false --wait
 
     echo waiting for rancher
     kubectl -n cattle-system rollout status deploy/rancher
-    # sleep 10
-
-    # echo installing elemental-operator
-    # # install elemental operator
-    # helm upgrade --create-namespace -n cattle-elemental-system --install elemental-operator oci://registry.opensuse.org/isv/rancher/elemental/stable/charts/rancher/elemental-operator-chart --wait
-
-    # echo waiting for elemental-operator
-    # kubectl -n cattle-elemental-system rollout status deploy/elemental-operator
-
-    # sleep 20
-
-    # echo installing elemental resources
-    # kubectl apply -f /var/rancher/elemental-res.yaml
 
     echo installation complete!
 }

@@ -30,7 +30,7 @@ spec:
         quantity: 1
         unhealthyNodeTimeout: 0s
         workerRole: true
-  kubernetesVersion: v1.23.7+k3s1
+  kubernetesVersion: v1.25.8+k3s1
 ---
 apiVersion: elemental.cattle.io/v1beta1
 kind: MachineRegistration
@@ -49,7 +49,27 @@ spec:
         device: /dev/sda
         debug: true
   machineInventoryLabels:
+    location: europe
     manufacturer: "${System Information/Manufacturer}"
     productName: "${System Information/Product Name}"
     serialNumber: "${System Information/Serial Number}"
     machineUUID: "${System Information/UUID}"
+# ---
+# apiVersion: elemental.cattle.io/v1beta1
+# kind: SeedImage
+# metadata:
+#   name: my-img
+#   namespace: fleet-default
+# spec:
+#   baseImage: https://download.opensuse.org/repositories/isv:/Rancher:/Elemental:/Dev:/Teal53/media/iso/elemental-teal.x86_64.iso
+#   registrationRef:
+#     apiVersion: elemental.cattle.io/v1beta1
+#     kind: MachineRegistration
+#     name: my-nodes
+#     namespace: fleet-default
+#   cloud-config:
+#     users:
+#       - name: root
+#         passwd: linux
+#       - name: test1
+#         passwd: test2
