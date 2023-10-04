@@ -153,6 +153,9 @@ resource "null_resource" "install_rancher" {
   provisioner "local-exec" {
     command = "./install-rancher.sh"
     working_dir = "${abspath(path.module)}"
+    environment = {
+	KUBECONFIG = "./k3s.yaml"
+    }
   }
 }
 
@@ -164,6 +167,9 @@ resource "null_resource" "install_elemental" {
   provisioner "local-exec" {
     command = "./install-elemental.sh"
     working_dir = "${abspath(path.module)}"
+    environment = {
+	KUBECONFIG = "./k3s.yaml"
+    }
   }
 }
 

@@ -30,7 +30,16 @@ function install() {
     helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
     helm repo update
     # install rancher manager
-    helm install rancher rancher-latest/rancher --create-namespace --namespace cattle-system --set bootstrapPassword=admin --version 2.7.2 --set hostname=10-0-40-60.sslip.io --set global.cattle.psp.enabled=false --wait
+    helm upgrade --install rancher rancher-latest/rancher \
+        --create-namespace --namespace cattle-system \
+        --version 2.7.5 \
+        --set hostname=10-0-40-60.sslip.io \
+        --set global.cattle.psp.enabled=false \
+        --set extraEnv[0].name=CATTLE_SERVER_URL \
+	--set extraEnv[0].value=https://10-0-40-60.sslip.io \
+	--set extraEnv[1].name=CATTLE_BOOTSTRAP_PASSWORD \
+	--set extraEnv[1].value=admin \
+        --wait
 
     echo waiting for rancher
     kubectl -n cattle-system rollout status deploy/rancher
