@@ -12,14 +12,14 @@ users:
   - default
   - name: rancher
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC7xBLnvPDm255Rmi/ko/SOryKpQL4B/jq+hYWWQMNewkYGMf/hqFjgyVG+RkAks3cjJFmN8G3OY5NA2548PqtfjrxTj5YB/InjWcnW62Hml1fohta+KYDLjdxcARVOg3SfyRJa1j17iWOV8kQf6/Nb3MTXbZ7pvScSEdOWkO3jZBgydGvDmaUgef4DjI+Pbz0nBiXdcno8ylIYQoLLPwjYD78rgJxaXm1MSexhLwlGNPAVOqZr4Gem94SQGgC924hphm04VsnK6e3t46yqxzZ+1qKW7k5KMDd0BmbZho0m40WnYpy2Xdjf4gKcbQZfx23VbUZ4P8IiRKbK+1/5kSKWtLMBqMdSV9lGszCJ8fugwRoY7PBW0VmXUeHLw6z6/04EPyeJWeugSJniQLQzRRyctM2pt4dR4+xGzzOGHFR3gfIXeDEZsCBYbaIv9VInvARHGWdGVihrRaSueeMwcChMh5b2rr1mzxGN4mqEJ30P0PmwhwbNRv+3tGUjHvCaSBhuDDVScAm1/jZNQAKw7Dx2bgzneXt1qtYEwBbORmhffhiZLyu6MGydZIaKAF8ovKS6XEpJNMnUMPGlGIsg9LA4M6OINog09kNAsLl9UZhICgYmGV7DZlkgIKXmFGb/lYSD27UUbdvc10AtDfDLFECJG9Zc8ilBr1IwLWP+mrENlQ== fredrik@suse
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILrp0979VAIW4T8xsu1JYo/yVD1s0XVKXaNcaJ2xBgGK
       - ${manager_public_key}
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users
     shell: /bin/bash
     lock_passwd: false
     chpasswd: { expire: False }
-    passwd: "$6$Omgi76z.b5pz2nBF$ML4PsAcnh8nkr1fsAMe4GQa03aauv0EWy2.csrRRf9XmKpLIE4XSr/j7gmk0yGgALrDuAwqPBFYXhljcQAxyJ1"
+    passwd: "$6$K2sJQb/gZmCyguje$kh2zqFMEVff08pumHEqOlJWEKW3pdOe8ZKHQUOcrdWsbPLXVhBPGD2RoW1SD8YZZizOfSu8rxlkj6eFyeMsTs."
 write_files:
   - encoding: b64
     content: ${install_k3s_b64}
@@ -29,10 +29,6 @@ write_files:
     content: ${elemental_res_b64}
     path: /var/rancher/elemental-res.yaml
     permissions: '0755'
-  # - encoding: b64
-  #   content: ${hardening_b64}
-  #   path: /var/lib/rancher/k3s/server/manifests/hardening.yaml
-  #   permissions: '0755'
 runcmd:
   - [ bash, -c, "echo 'ClientAliveInterval 120' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "echo 'ClientAliveCountMax 720' >> /etc/ssh/sshd_config" ]

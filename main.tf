@@ -12,6 +12,11 @@ variable "bridge_name" {
   default = "vbr0"
 }
 
+variable "manager_address" {
+  type = string
+  default = "10.0.40.60"
+}
+
 variable "num_nodes" {
   type = number
   default = 0
@@ -70,8 +75,8 @@ resource "libvirt_cloudinit_disk" "manager_init" {
 
 resource "libvirt_volume" "tumbleweed" {
   name   = "tumbleweed"
-  pool   = "elemental"
-  source = "file://${abspath(path.module)}/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
+  pool   = libvirt_pool.elemental.name
+  source = "https://download.opensuse.org/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
   format = "qcow2"
 }
 
@@ -97,7 +102,6 @@ resource "libvirt_domain" "manager" {
   network_interface {
     bridge         = var.bridge_name
     mac            = "02:52:54:00:5E:01"
-    wait_for_lease = true
   }
 
   console {
@@ -115,9 +119,10 @@ resource "libvirt_domain" "manager" {
   connection {
     type        = "ssh"
     user        = "rancher"
-    host        = libvirt_domain.manager.network_interface.0.addresses.0
+    # host        = libvirt_domain.manager.network_interface.0.addresses.0
+    host        = var.manager_address
     private_key = tls_private_key.manager_private_key.private_key_pem
-    timeout     = "30m"
+    timeout     = "5m"
   }
 
   provisioner "remote-exec" {
@@ -128,10 +133,6 @@ resource "libvirt_domain" "manager" {
         "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml; while ! kubectl get nodes; do sleep 1; done;",
     ]
   }
-}
-
-output "manager_ip" {
-  value = libvirt_domain.manager.network_interface.0.addresses.0
 }
 
 resource "null_resource" "kubeconfig" {
