@@ -73,8 +73,8 @@ resource "libvirt_cloudinit_disk" "manager_init" {
   meta_data = data.template_file.manager_meta.rendered
 }
 
-resource "libvirt_volume" "tumbleweed" {
-  name   = "tumbleweed"
+resource "libvirt_volume" "leap" {
+  name   = "leap"
   pool   = libvirt_pool.elemental.name
   source = "https://download.opensuse.org/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
   format = "qcow2"
@@ -82,7 +82,7 @@ resource "libvirt_volume" "tumbleweed" {
 
 resource "libvirt_volume" "manager" {
   name           = "manager"
-  base_volume_id = libvirt_volume.tumbleweed.id
+  base_volume_id = libvirt_volume.leap.id
   pool           = libvirt_pool.elemental.name
   size           = 40000000000
 }
