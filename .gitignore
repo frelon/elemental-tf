@@ -6,4 +6,6 @@ elemental-iso-build
 initial-registration.yaml
 *.iso
 *.qcow2
+*.img
+*.raw
 k3s.yaml

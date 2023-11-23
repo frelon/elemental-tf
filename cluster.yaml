@@ -46,7 +46,13 @@ spec:
     elemental:
       install:
         reboot: true
-        device: /dev/sda
+        device-selector:
+          - key: Name
+            operator: In
+            values:
+            - /dev/sda
+            - /dev/vda
+            - /dev/nvme0
         debug: true
   machineInventoryLabels:
     location: europe

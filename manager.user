@@ -19,7 +19,7 @@ users:
     shell: /bin/bash
     lock_passwd: false
     chpasswd: { expire: False }
-    passwd: "$6$K2sJQb/gZmCyguje$kh2zqFMEVff08pumHEqOlJWEKW3pdOe8ZKHQUOcrdWsbPLXVhBPGD2RoW1SD8YZZizOfSu8rxlkj6eFyeMsTs."
+    passwd: "$6$FvsNpi49wJEvcYj3$zhqZo/T/kzGN8vBYeFenZDRfF/CeoUD5ctv7BOl3w23zsE4UGZUHF0ronTjCA0nX2MyvoJGdSjdVyPj98RMwu0"
 write_files:
   - encoding: b64
     content: ${install_k3s_b64}
@@ -33,5 +33,6 @@ runcmd:
   - [ bash, -c, "echo 'ClientAliveInterval 120' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "echo 'ClientAliveCountMax 720' >> /etc/ssh/sshd_config" ]
   - [ bash, -c, "echo 'TCPKeepAlive yes' >> /etc/ssh/sshd_config" ]
+  - [ bash, -c, "ip link set eth0 up && dhclient eth0" ]
   - [ bash, -c, "/var/rancher/install-k3s.sh" ]
   - [ bash, -c, "curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash" ]
