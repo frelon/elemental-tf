@@ -1,11 +1,10 @@
 #!/bin/bash
 
-ACTION=$1
-
-
-case $ACTION in
-up)
+case $1 in
+iptables)
   iptables -I FORWARD -m physdev --physdev-is-bridged -j ACCEPT
+  ;;
+up)
   nmcli con add ifname vbr0 type bridge con-name vbr0
   nmcli con add type bridge-slave ifname enp2s0f0 master vbr0
   nmcli con mod vbr0 bridge.stp no
