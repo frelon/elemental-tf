@@ -166,7 +166,7 @@ resource "null_resource" "install_elemental" {
   ]
 
   provisioner "local-exec" {
-    command = "./install-elemental.sh"
+    command = "./elemental.sh install"
     working_dir = "${abspath(path.module)}"
     environment = {
 	KUBECONFIG = "./k3s.yaml"

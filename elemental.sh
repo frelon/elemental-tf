@@ -2,7 +2,22 @@
 
 export KUBECONFIG=${KUBECONFIG:="./k3s.yaml"}
 
-CHANNEL=$1
+ACTION=$1
+CHANNEL=$2
+
+case $ACTION in
+uninstall)
+  helm uninstall -n cattle-elemental-system elemental-operator
+  helm uninstall -n cattle-elemental-system elemental-operator-crds
+  exit 0
+  ;;
+install)
+  ;;
+*)
+  echo "Unknown action $ACTION"
+  exit 1
+  ;;
+esac
 
 case $CHANNEL in
 dev)
