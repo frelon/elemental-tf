@@ -2,9 +2,13 @@ terraform {
   required_providers {
     libvirt = {
       source = "dmacvicar/libvirt"
-      version = "0.7.0"
+      version = "0.7.6"
     }
   }
+}
+
+provider "libvirt" {
+  uri = "qemu:///system"
 }
 
 variable "bridge_name" {
@@ -30,10 +34,6 @@ variable "rancher_domain_name" {
 variable "libvirt_pool_path" {
   type = string
   default = "~/libvirt_elemental"
-}
-
-provider "libvirt" {
-  uri = "qemu:///system"
 }
 
 resource "tls_private_key" "manager_private_key" {
@@ -93,7 +93,6 @@ resource "libvirt_domain" "manager" {
   vcpu       = 4
   autostart  = true
   cloudinit  = libvirt_cloudinit_disk.manager_init.id
-  qemu_agent = true
 
   disk {
     volume_id = libvirt_volume.manager.id
