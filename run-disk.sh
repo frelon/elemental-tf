@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 VM_NAME=${1:-elemental-0}
-RAW_PATH=${2:-./elemental-teal.x86_64.raw}
-DISK_PATH=./elemental-teal.x86_64.qcow2
+RAW_PATH=${2:-./sle-micro.x86_64.raw}
+DISK_PATH=./sle-micro.x86_64.qcow2
 
 echo Preparing disk for ${VM_NAME}
 
