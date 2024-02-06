@@ -44,6 +44,9 @@ spec:
         - name: root
           passwd: linux
     elemental:
+      registration:
+        emulate-tpm: true
+        emulated-tpm-seed: -1
       install:
         reboot: true
         device-selector:
@@ -53,7 +56,16 @@ spec:
             - /dev/sda
             - /dev/vda
             - /dev/nvme0
+            - /dev/mmcblk0
         debug: true
+      reset:
+        debug: true
+        enabled: true
+        reset-persistent: true
+        reset-oem: true
+        poweroff: false
+        reboot: true
+  machineName: "${System Data/Runtime/Hostname}"
   machineInventoryLabels:
     location: europe
     manufacturer: "${System Information/Manufacturer}"
