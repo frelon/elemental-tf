@@ -32,7 +32,7 @@ function install() {
     # install rancher manager
     helm upgrade --install rancher rancher-latest/rancher \
         --create-namespace --namespace cattle-system \
-        --version 2.8.0 \
+        --version 2.8.2 \
         --set hostname=10-0-40-60.sslip.io \
         --set global.cattle.psp.enabled=false \
         --set extraEnv[0].name=CATTLE_SERVER_URL \
