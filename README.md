@@ -6,6 +6,7 @@ libvirt host.
 Requires kubectl, helm and cmctl installed on the host system.
 
 ```sh
-sudo ./add_br.sh
+sudo ./bridge.sh up
+sudo ./bridge.sh iptables
 terraform apply -auto-approve
 ```
