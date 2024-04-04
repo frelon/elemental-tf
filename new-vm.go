@@ -30,6 +30,7 @@ const (
 	rawFile      = "sl-micro.x86_64.raw"
 	qcow2File    = "sl-micro.x86_64.qcow2"
 	firmwarePath = "/usr/share/qemu/ovmf-x86_64.bin"
+	image        = "registry.opensuse.org/isv/rancher/elemental/dev/containers/suse/sl-micro/6.0/kvm-os-container:latest"
 
 	group      = "elemental.cattle.io"
 	version    = "v1beta1"
@@ -138,7 +139,7 @@ func getSeedResource(name, baseImage, registrationName string) *unstructured.Uns
 func CreateSeedImage(ctx context.Context, client dynamic.ResourceInterface, name string) error {
 	fmt.Printf("Creating CRD...")
 
-	seedImg := getSeedResource(name, "registry.opensuse.org/isv/rancher/elemental/dev/containers/suse/sl-micro/6.0/baremetal-os-container:2.2.0", "my-nodes")
+	seedImg := getSeedResource(name, image, "my-nodes")
 
 	_, err := client.Get(ctx, name, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {

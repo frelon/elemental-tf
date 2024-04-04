@@ -4,6 +4,7 @@ metadata:
   name: fire-img
   namespace: fleet-default
 spec:
+  cleanupAfterMinutes: 0
   size: 10Gi
   type: raw
   baseImage: registry.opensuse.org/isv/rancher/elemental/dev/containers/suse/sl-micro/6.0/kvm-os-container:2.2.0
