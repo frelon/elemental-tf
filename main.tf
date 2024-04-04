@@ -84,15 +84,19 @@ resource "libvirt_volume" "manager" {
   name           = "manager"
   base_volume_id = libvirt_volume.leap.id
   pool           = libvirt_pool.elemental.name
-  size           = 40000000000
+  size           = 50000000000
 }
 
 resource "libvirt_domain" "manager" {
   name       = "manager"
-  memory     = "4096"
-  vcpu       = 4
+  memory     = "6442"
+  vcpu       = 8
   autostart  = true
   cloudinit  = libvirt_cloudinit_disk.manager_init.id
+
+  cpu {
+    mode = "host-passthrough"
+  }
 
   disk {
     volume_id = libvirt_volume.manager.id
