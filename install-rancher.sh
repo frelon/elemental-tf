@@ -5,7 +5,7 @@ set -e
 function install_cert_manager() {
     echo installing cert-manager
 
-    CM_VER=v1.7.1
+    CM_VER=v1.14.4
     # curl -sSL -o cmctl.tar.gz https://github.com/cert-manager/cert-manager/releases/download/${CM_VER}/cmctl-linux-amd64.tar.gz
     # tar xzf cmctl.tar.gz
 
